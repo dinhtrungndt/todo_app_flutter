@@ -4,14 +4,25 @@ import 'package:flutter/material.dart';
 import 'widget/listTodo.dart';
 import 'widget/modalBottom.dart';
 
+// Items
+import 'package:todo_app_flutter/modal/items.dart';
+
 void main(List<String> args) {
-  runApp(const MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()));
+  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({
+  MyApp({
     Key? key,
   }) : super(key: key);
+
+  final List<DataItems> items = [
+    DataItems(id: '1', name: 'Dậy làm việc'),
+    DataItems(id: '2', name: 'Uống nước hàng ngày'),
+    DataItems(id: '3', name: 'Đi ngủ đúng giờ'),
+    DataItems(id: '4', name: 'Đi tập thể dục'),
+    DataItems(id: '5', name: 'Đi chơi với bạn bè'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +38,7 @@ class MyApp extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
-          children: [
-            listTodo(),
-            listTodo(),
-            listTodo(),
-            listTodo(),
-          ],
+          children: items.map((item) => listTodo(items: item)).toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
