@@ -11,18 +11,24 @@ void main(List<String> args) {
   runApp(MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({
+class MyApp extends StatefulWidget {
+  const MyApp({
     Key? key,
   }) : super(key: key);
 
-  final List<DataItems> items = [
-    DataItems(id: '1', name: 'Dậy làm việc'),
-    DataItems(id: '2', name: 'Uống nước hàng ngày'),
-    DataItems(id: '3', name: 'Đi ngủ đúng giờ'),
-    DataItems(id: '4', name: 'Đi tập thể dục'),
-    DataItems(id: '5', name: 'Đi chơi với bạn bè'),
-  ];
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final List<DataItems> items = [];
+
+  void _handleAddTask(String name) {
+    final newItem = DataItems(id: DateTime.now().toString(), name: name);
+    setState(() {
+      items.add(newItem);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +56,7 @@ class MyApp extends StatelessWidget {
               isScrollControlled: true,
               context: context,
               builder: (BuildContext context) {
-                return modalBottom(context);
+                return modalBottom(addTask: _handleAddTask);
               });
         },
         child: const Icon(
