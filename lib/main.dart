@@ -8,7 +8,7 @@ import 'widget/modalBottom.dart';
 import 'package:todo_app_flutter/modal/items.dart';
 
 void main(List<String> args) {
-  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()));
+  runApp(const MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -28,6 +28,13 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       items.add(newItem);
     });
+
+  }
+
+  void _handleDeleteTask(String id) {
+    setState(() {
+      items.removeWhere((element) => element.id == id);
+    });
   }
 
   @override
@@ -44,7 +51,13 @@ class _MyAppState extends State<MyApp> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
-          children: items.map((item) => listTodo(items: item)).toList(),
+          children: items
+              .map((item) => listTodo(
+                    index: items.indexOf(item),
+                    items: item,
+                    handleDelete: _handleDeleteTask ,
+                  ))
+              .toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(

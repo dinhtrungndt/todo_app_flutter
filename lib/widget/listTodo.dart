@@ -1,12 +1,18 @@
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 
 class listTodo extends StatelessWidget {
   listTodo({
     Key? key,
     required this.items,
+    required this.handleDelete,
+    required this.index,
   }) : super(key: key);
 
   var items;
+  var index;
+  final Function handleDelete;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,7 +20,8 @@ class listTodo extends StatelessWidget {
       height: 74,
       margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 37, 251, 155),
+        color: (index%2==0) ? const Color.fromARGB(255, 37, 251, 155) : const Color.fromARGB(
+            255, 114, 139, 246),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
@@ -29,10 +36,18 @@ class listTodo extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const Icon(
-            Icons.delete_outline,
-            color: Colors.red,
-            size: 20,
+          InkWell(
+            onTap: () async {
+              if(await confirm(context)){
+                handleDelete(items.id);
+              }
+              return ;
+            },
+            child: const Icon(
+              Icons.delete_outline,
+              color: Colors.red,
+              size: 20,
+            ),
           ),
         ]),
       ),
